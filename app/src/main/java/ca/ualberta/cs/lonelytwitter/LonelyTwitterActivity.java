@@ -25,11 +25,11 @@ import com.google.gson.reflect.TypeToken;
 
 public class LonelyTwitterActivity extends Activity {
 
-	private static final String FILENAME = "file.sav";
-	private EditText bodyText;
-	private ListView oldTweetsList;
-	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-	private ArrayAdapter<Tweet> adapter;
+	private static final String FILENAME = "file.sav";//model
+	private EditText bodyText;		//model
+	private ListView oldTweetsList;		//model
+	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();		//model
+	private ArrayAdapter<Tweet> adapter;		//view
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,40 +57,40 @@ public class LonelyTwitterActivity extends Activity {
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		super.onStart();
-		loadFromFile();
-		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
-		oldTweetsList.setAdapter(adapter);
+		super.onStart();					//model
+		loadFromFile();						//model
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);		//view
+		oldTweetsList.setAdapter(adapter);					//view
 	}
 
 	private void loadFromFile() {
 		try {
-			FileInputStream fis = openFileInput(FILENAME);
-			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-			Gson gson = new Gson();
+			FileInputStream fis = openFileInput(FILENAME);					//model
+			BufferedReader in = new BufferedReader(new InputStreamReader(fis));		//model
+			Gson gson = new Gson();					//model
 			// Taken from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 2015-09-22
 			Type listType = new TypeToken<ArrayList<NormalTweet>>() {}.getType();
-			tweets = gson.fromJson(in, listType);
-		} catch (FileNotFoundException e) {
-			tweets = new ArrayList<Tweet>();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+			tweets = gson.fromJson(in, listType);		//view
+		} catch (FileNotFoundException e) {				//model
+			tweets = new ArrayList<Tweet>();			//model
+		} catch (IOException e) {						//controller
+			throw new RuntimeException(e);				//controller
 		}
 	}
 	
 	private void saveInFile() {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME,
+			FileOutputStream fos = openFileOutput(FILENAME,			//model
 					0);
-			OutputStreamWriter writer = new OutputStreamWriter(fos);
-			Gson gson = new Gson();
-			gson.toJson(tweets, writer);
-			writer.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+			OutputStreamWriter writer = new OutputStreamWriter(fos);		//controller
+			Gson gson = new Gson();						//view
+			gson.toJson(tweets, writer);				//view
+			writer.flush();								//view
+			fos.close();								//view
+		} catch (FileNotFoundException e) {				//controller
+			throw new RuntimeException(e);					//controller
+		} catch (IOException e) {					//controller
+			throw new RuntimeException(e);				//controller
 		}
 	}
 }
